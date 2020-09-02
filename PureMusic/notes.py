@@ -83,6 +83,18 @@ def gliss_sine_acc(freq: float =440.0, dur: float =1.0, vol: float =0.5, rate: i
 
     return wave
 
+def gliss_ramp(freq: float =440.0, dur: float =1.0, vol: float =0.5, rate: int =44100,
+			   over: list =[], freq2: float =550.0):
+	'''
+	Gliss ramp wave no overtone
+	'''
+	if vol > 1.0 or freq < 0.0 or freq2 < 0.0:
+		raise WaveError
+
+	rfreq2 = freq + (freq2-freq)/2.0
+	return ((VOLU*vol) * np.mod(np.multiply(np.arange(rate*dur),
+			np.linspace(freq, rfreq2, int(dur*rate)))/(2*rate), 1.0)).astype(np.float32)
+
 ''' TODO: ramp with overtone, square wave, others? '''
 
 ''' Envelope functions '''
